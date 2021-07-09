@@ -1,17 +1,28 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <TwitterFeed :user="twitterFeeds[0]" />
+  <TwitterFeed :user="twitterFeeds[1]" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue';
+import TwitterFeed from './components/TwitterFeed.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    HelloWorld,
+    TwitterFeed,
+  },
+  data() {
+    return {
+      twitterFeeds: ['BBCAfrica','ethereum'],
+      currencies: ['tezos, algorand', 'signa'],
+    };
+  },
 }
+
 </script>
 
 <style>

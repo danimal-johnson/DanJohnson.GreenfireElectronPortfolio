@@ -18,9 +18,42 @@ export default {
   data() {
     return {
       twitterFeeds: ['BBCAfrica','ethereum'],
-      currencies: ['tezos, algorand', 'signa'],
+      currencies: [],
+      author: {
+        name: 'Dan Johnson',
+        email: null,
+        website: 'https://johnsondan.com/',
+        linkedIn: 'https://linkedin.com/in/danimal.johnson',
+        github: 'https://github.com/danimal.johnson',
+        icon: null,
+      }
     };
   },
+  created() {
+    this.currencies = [
+      {
+        currency: 'tezos',
+        name: 'Tezos',
+        price: '$1,000,000,000',
+        symbol: 'TZS',
+        icon: null,
+      },
+      {
+        currency: 'algorand',
+        name: 'Algorand',
+        price: '$1,000,000,000',
+        symbol: 'ALGO',
+        icon: null,
+      },
+      {
+        currency: 'signa',
+        name: 'Signa',
+        price: '$1,000,000,000',
+        symbol: 'SIGNA',
+        icon: null,
+      },
+    ]; // this.currencies
+  }, // created
 }
 
 </script>

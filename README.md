@@ -1,4 +1,4 @@
-# vue3-electron
+# electron-portfolio
 
 ## Project setup
 ```

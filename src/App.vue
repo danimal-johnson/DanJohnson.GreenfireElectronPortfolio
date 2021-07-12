@@ -1,23 +1,50 @@
 <template>
   <Home msg="Your Greenfire Developer Portfolio" />
-  <TwitterFeed :user="twitterFeeds[0]" />
-  <TwitterFeed :user="twitterFeeds[1]" />
+  <Card type="person" :details="author" />
+  <Card type="currency" :details="currencies[0]" />
+  <Card type="currency" :details="currencies[1]" />
+  <!-- TwitterFeed :user="twitterFeeds[0]" / -->
+  <!-- TwitterFeed :user="twitterFeeds[1]" / -->
 </template>
 
 <script>
 import Home from './components/Home.vue';
-import TwitterFeed from './components/TwitterFeed.vue';
+// import TwitterFeed from './components/TwitterFeed.vue';
+import Card from './components/Card.vue';
 
 export default {
   name: 'App',
   components: {
     Home,
-    TwitterFeed,
+//     TwitterFeed,
+    Card,
   },
   data() {
     return {
       twitterFeeds: ['BBCAfrica','ethereum'],
-      currencies: [],
+      currencies: [
+        {
+          currency: 'tezos',
+          name: 'Tezos',
+          price: 0,
+          symbol: 'TZS',
+          icon: null,
+        },
+        {
+          currency: 'algorand',
+          name: 'Algorand',
+          price: 0,
+          symbol: 'ALGO',
+          icon: null,
+        },
+        {
+          currency: 'signa', // TODO: Not traded on an exchange
+          name: 'Signa',
+          price: 0,
+          symbol: 'SIGNA',
+          icon: null,
+        },
+      ],
       author: {
         name: 'Dan Johnson',
         email: null,
@@ -25,33 +52,24 @@ export default {
         linkedIn: 'https://linkedin.com/in/danimal.johnson',
         github: 'https://github.com/danimal.johnson',
         icon: null,
-      }
+      },
     };
   },
-  created() {
-    this.currencies = [
-      {
-        currency: 'tezos',
-        name: 'Tezos',
-        price: '$1,000,000,000',
-        symbol: 'TZS',
-        icon: null,
-      },
-      {
-        currency: 'algorand',
-        name: 'Algorand',
-        price: '$1,000,000,000',
-        symbol: 'ALGO',
-        icon: null,
-      },
-      {
-        currency: 'signa',
-        name: 'Signa',
-        price: '$1,000,000,000',
-        symbol: 'SIGNA',
-        icon: null,
-      },
-    ]; // this.currencies
+  methods: {
+    async fetchCurrency(currency) {
+      console.log('fetching currency', currency.currency);
+      console.log('Original Price:', currency.price);
+      const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${currency.currency}&vs_currencies=usd`);
+      const data = await res.json();
+      console.log('Received Info:', data);
+      currency.price = data[currency.currency].usd;
+      console.log('New Price:', currency.price);
+    },
+  },
+  async created() {
+    await this.fetchCurrency(this.currencies[0]);
+    await this.fetchCurrency(this.currencies[1]);
+    console.log(this.currencies);
   }, // created
 }
 

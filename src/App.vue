@@ -1,8 +1,10 @@
 <template>
   <Home msg="Your Greenfire Developer Portfolio" />
-  <Card type="person" :details="author" />
-  <Card type="currency" :details="currencies[0]" />
-  <Card type="currency" :details="currencies[1]" />
+  <!-- Card type="person" :details="author" / -->
+  <div class="crypto">
+    <Card type="currency" :details="currencies[0]" />
+    <Card type="currency" :details="currencies[1]" />
+  </div>
   <!-- TwitterFeed :user="twitterFeeds[0]" / -->
   <!-- TwitterFeed :user="twitterFeeds[1]" / -->
 </template>
@@ -84,4 +86,10 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+.crypto {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 </style>

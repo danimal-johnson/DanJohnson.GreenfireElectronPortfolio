@@ -1,15 +1,19 @@
 <template>
   <div :class="'card' + ' ' + type">
-    <div class="card-header"></div>
-    <h3>{{ name }}</h3>
-    <div class="card-body">
-      {{ details.name }}
-      {{ details.price }}
+    <div class="card-header">
+      <h3>{{ details.name }} ({{ details.symbol }})</h3>
     </div>
+    <div class="card-body">
+      <div ref="qrcode"></div>
+    </div>
+    <h3>US${{ details.price }}</h3>
   </div>
 </template>
 
 <script>
+// import Demo from './Demo.vue';
+import * as QRCode from 'easyqrcodejs';
+
 export default {
   name: 'Card',
   props: {
@@ -21,6 +25,23 @@ export default {
       symbol: String,
       price: Number,
     },
+    loading: Boolean,
+  },
+  components: {
+    // Demo,
+  },
+  mounted() {
+    const qrOptions = {
+      // ====== Basic
+      // text: "https://github.com/ushelp/EasyQRCodeJS",
+      text: `${this.details.name} (${this.details.symbol}): US$${this.details.price}`,
+      width: 150,
+      height: 150,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H, // L, M, Q, H
+    }
+    new QRCode(this.$refs.qrcode, qrOptions);
   },
 };
 </script>

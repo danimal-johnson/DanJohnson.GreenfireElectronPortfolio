@@ -2,8 +2,9 @@
   <Home msg="Your Greenfire Developer Portfolio" />
   <!-- Card type="person" :details="author" / -->
   <div class="crypto">
-    <Card type="currency" :details="currencies[0]" />
-    <Card type="currency" :details="currencies[1]" />
+    <Card v-if="currencies[0].loaded" type="currency" :details="currencies[0]" />
+    <Card v-if="currencies[1].loaded" type="currency" :details="currencies[1]" />
+    <Card v-if="currencies[2].loaded" type="currency" :details="currencies[2]" />
   </div>
   <!-- TwitterFeed :user="twitterFeeds[0]" / -->
   <!-- TwitterFeed :user="twitterFeeds[1]" / -->
@@ -11,8 +12,8 @@
 
 <script>
 import Home from './components/Home.vue';
-// import TwitterFeed from './components/TwitterFeed.vue';
 import Card from './components/Card.vue';
+// import TwitterFeed from './components/TwitterFeed.vue';
 
 export default {
   name: 'App',
@@ -23,28 +24,31 @@ export default {
   },
   data() {
     return {
-      twitterFeeds: ['BBCAfrica','ethereum'],
+      twitterFeeds: ['BBCAfrica', 'ethereum'],
       currencies: [
         {
           currency: 'tezos',
           name: 'Tezos',
           price: 0,
-          symbol: 'TZS',
-          icon: null,
+          symbol: 'XTZ',
+          icon: 'logo.png',
+          loaded: false,
         },
         {
           currency: 'algorand',
           name: 'Algorand',
           price: 0,
           symbol: 'ALGO',
-          icon: null,
+          icon: 'logo.png',
+          loaded: false,
         },
         {
-          currency: 'signa', // TODO: Not traded on an exchange
-          name: 'Signa',
+          currency: 'signum',
+          name: 'Signum',
           price: 0,
           symbol: 'SIGNA',
-          icon: null,
+          icon: 'SIGNA.png',
+          loaded: false,
         },
       ],
       author: {
@@ -59,20 +63,19 @@ export default {
   },
   methods: {
     async fetchCurrency(currency) {
-      console.log('fetching currency', currency.currency);
-      console.log('Original Price:', currency.price);
       const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${currency.currency}&vs_currencies=usd`);
       const data = await res.json();
-      console.log('Received Info:', data);
       currency.price = data[currency.currency].usd;
-      console.log('New Price:', currency.price);
+      currency.loaded = true;
     },
   },
   async created() {
     await this.fetchCurrency(this.currencies[0]);
     await this.fetchCurrency(this.currencies[1]);
+    await this.fetchCurrency(this.currencies[2]);
+    // this.currencies[2] = true; // TODO: Find an exchange that supports this
     console.log(this.currencies);
-  }, // created
+  },
 }
 
 </script>
@@ -89,7 +92,7 @@ export default {
 .crypto {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 </style>

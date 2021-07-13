@@ -6,12 +6,13 @@
     <div class="card-body">
       <div ref="qrcode"></div>
     </div>
-    <h3>US${{ details.price }}</h3>
+    <h3>US${{ details.price || `Download App` }}</h3>
+    <img :src="getImgUrl(details.icon)" alt="WTF">
+    <p>Here!</p>
   </div>
 </template>
 
 <script>
-// import Demo from './Demo.vue';
 import * as QRCode from 'easyqrcodejs';
 
 export default {
@@ -28,7 +29,11 @@ export default {
     loading: Boolean,
   },
   components: {
-    // Demo,
+  },
+  methods: {
+    getImgUrl(src) {
+      return require('../assets/' + src);
+    },
   },
   mounted() {
     const qrOptions = {
@@ -40,6 +45,7 @@ export default {
       colorDark : "#000000",
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H, // L, M, Q, H
+      // logo: '../assets/logo.png', // this.details.icon, "getImgUrl('logo.png')"
     }
     new QRCode(this.$refs.qrcode, qrOptions);
   },

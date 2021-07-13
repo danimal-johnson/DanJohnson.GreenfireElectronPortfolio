@@ -1,18 +1,18 @@
 <template>
-  <Home msg="Your Greenfire Developer Portfolio" />
+  <Home msg="Greenfire Developer Portfolio" />
   <!-- Card type="person" :details="author" / -->
-  <div class="crypto">
+  <!-- div class="crypto">
     <Card v-if="currencies[0].loaded" type="currency" :details="currencies[0]" />
     <Card v-if="currencies[1].loaded" type="currency" :details="currencies[1]" />
     <Card v-if="currencies[2].loaded" type="currency" :details="currencies[2]" />
-  </div>
+  </!  -->
   <!-- TwitterFeed :user="twitterFeeds[0]" / -->
   <!-- TwitterFeed :user="twitterFeeds[1]" / -->
 </template>
 
 <script>
 import Home from './components/Home.vue';
-import Card from './components/Card.vue';
+// import Card from './components/Card.vue';
 // import TwitterFeed from './components/TwitterFeed.vue';
 
 export default {
@@ -20,7 +20,7 @@ export default {
   components: {
     Home,
 //     TwitterFeed,
-    Card,
+    // Card,
   },
   data() {
     return {
@@ -57,7 +57,7 @@ export default {
         website: 'https://johnsondan.com/',
         linkedIn: 'https://linkedin.com/in/danimal.johnson',
         github: 'https://github.com/danimal.johnson',
-        icon: null,
+        icon: 'dj-qr-code.png',
       },
     };
   },

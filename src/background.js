@@ -1,9 +1,10 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
-import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
-const isDevelopment = process.env.NODE_ENV !== 'production'
+import { app, protocol, BrowserWindow, Menu } from 'electron';
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
+import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer';
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const isMac = process.platform === 'darwin';
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -24,6 +25,10 @@ async function createWindow() {
     }
   })
 
+// function createAboutWindow() { // TODO: Create about window
+//   console.log('create about window');
+// }
+
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -34,6 +39,53 @@ async function createWindow() {
     win.loadURL('app://./index.html')
   }
 }
+
+// ----------------- Menu ------------------------
+const menu = [
+  // Set our own app 'About' menu for Mac
+  //...(isMac ? [{ role: 'appMenu'}] : []),
+  ...(isMac ? [{
+    label: app.name,
+    submenu: [
+    {
+      label: 'About',
+      click: () => console.log('about menu clicked'), // TODO
+    }
+  ]}] : []),
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Save to PDF',
+        accelerator: 'CmdOrCtrl+S',
+        click: () => { console.log('save to pdf'); }, // TODO: save to pdf
+      },
+      {
+        label: 'Quit',
+        accelerator: 'CmdOrCtrl+Q',
+        click: () => app.quit(),
+      },
+    ],
+  },
+  ...(!isMac ? [{
+    label: 'Help',
+    submenu: [{
+      label: 'About',
+      click: () => console.log('about menu clicked'), // TODO
+    }],
+  }] : []), // Help/About menu only on non-Mac
+  ...(isDevelopment ? [
+    {
+      label: 'Developer',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forcereload' },
+        { type: 'separator' },
+        { role: 'toggledevtools' },
+      ],
+    }] : [] // Hide menu if not in dev mode
+  ),
+];
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -63,6 +115,8 @@ app.on('ready', async () => {
     }
   }
   createWindow()
+  const mainMenu = Menu.buildFromTemplate(menu);
+  Menu.setApplicationMenu(mainMenu);
 })
 
 // Exit cleanly on request from parent process in development mode.

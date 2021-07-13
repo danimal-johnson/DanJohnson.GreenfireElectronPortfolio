@@ -31,7 +31,7 @@ export default {
           name: 'Tezos',
           price: 0,
           symbol: 'XTZ',
-          icon: 'logo.png',
+          icon: 'tezos-logo-med.png',
           loaded: false,
         },
         {
@@ -39,7 +39,7 @@ export default {
           name: 'Algorand',
           price: 0,
           symbol: 'ALGO',
-          icon: 'logo.png',
+          icon: 'algorand-logo-med.png',
           loaded: false,
         },
         {
@@ -47,7 +47,7 @@ export default {
           name: 'Signum',
           price: 0,
           symbol: 'SIGNA',
-          icon: 'SIGNA.png',
+          icon: 'signum-logo.png',
           loaded: false,
         },
       ],
@@ -73,7 +73,6 @@ export default {
     await this.fetchCurrency(this.currencies[0]);
     await this.fetchCurrency(this.currencies[1]);
     await this.fetchCurrency(this.currencies[2]);
-    // this.currencies[2] = true; // TODO: Find an exchange that supports this
     console.log(this.currencies);
   },
 }

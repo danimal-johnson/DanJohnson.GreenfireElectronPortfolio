@@ -4,11 +4,9 @@
       <h3>{{ details.name }} ({{ details.symbol }})</h3>
     </div>
     <div class="card-body">
-      <div ref="qrcode"></div>
+      <div class="qr-container" ref="qrcode"></div>
     </div>
-    <h3>US${{ details.price || `Download App` }}</h3>
-    <img :src="getImgUrl(details.icon)" alt="WTF">
-    <p>Here!</p>
+    <h3>US${{ details.price }}</h3>
   </div>
 </template>
 
@@ -45,7 +43,8 @@ export default {
       colorDark : "#000000",
       colorLight : "#ffffff",
       correctLevel : QRCode.CorrectLevel.H, // L, M, Q, H
-      // logo: '../assets/logo.png', // this.details.icon, "getImgUrl('logo.png')"
+      logo: this.getImgUrl(this.details.icon),
+      version: 4, // Force all QRCodes to have the same dimensions.
     }
     new QRCode(this.$refs.qrcode, qrOptions);
   },
@@ -67,5 +66,9 @@ export default {
 }
 .card-body {
   padding: 1rem;
+}
+.qr-container {
+  width: 165px;
+  height: 165px;
 }
 </style>

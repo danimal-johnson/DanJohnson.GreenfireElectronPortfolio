@@ -1,9 +1,13 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, Menu } from 'electron';
+import { app, protocol, BrowserWindow, Menu, ipcMain, /* shell */ } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer';
-const isDevelopment = process.env.NODE_ENV !== 'production';
+// const os = require('os');
+// const fs = require('fs');
+// const path = require('path');
+
+const isDev = process.env.NODE_ENV !== 'production';
 const isMac = process.platform === 'darwin';
 
 // Scheme must be registered before the app is ready
@@ -14,7 +18,7 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
+    width: isDev ? 1100 : 800,
     height: 600,
     webPreferences: {
       
@@ -74,7 +78,7 @@ const menu = [
       click: () => console.log('about menu clicked'), // TODO
     }],
   }] : []), // Help/About menu only on non-Mac
-  ...(isDevelopment ? [
+  ...(isDev ? [
     {
       label: 'Developer',
       submenu: [
@@ -106,7 +110,7 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isDev && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
       await installExtension(VUEJS3_DEVTOOLS)
@@ -119,8 +123,55 @@ app.on('ready', async () => {
   Menu.setApplicationMenu(mainMenu);
 })
 
+// --------------- IPC Events ------------------------
+
+ipcMain.on('print-to-pdf', event => {
+  // const pdfPath = `${os.homedir()}/electron-portfolio/port.pdf`;
+  // const pdfPath = path.join(os.homedir(), 'electron-portfolio', 'port.pdf');
+  // console.log('PDF Path is: ' + pdfPath);
+
+  console.log('In the print to pdf function.');
+
+  // const printToPDF = require('electron-print-to-pdf');
+  // const win = BrowserWindow.fromWebContents(event.sender);
+
+  // win.webContents.printToPDF({}, (err, data) => {
+  //   if (err) {
+  //     console.error(err.message);
+  //     return;
+  //   }
+  //   console.log('Printing...');
+  //   fs.writeFile(pdfPath, data, (err) => {
+  //     if (err) {
+  //       console.error(err.message);
+  //       return;
+  //     }
+  //     shell.openExternal('file://' + pdfPath);
+  //     event.sender.send('wrote-pdf', pdfPath);
+  //     console.log('Printed successfully to ' + pdfPath);
+  //   });
+  // });
+
+  // e.sender.printToPDF({
+  //   marginsType: 0,
+  //   printBackground: true,
+  //   printSelectionOnly: false,
+  //   pageSize: 'A4',
+  //   pageOrientation: 'portrait',
+  //   printBackground: true,
+  //   landscape: false,
+  //   scaleFactor: 1,
+  //   headerTemplate: '',
+  //   footerTemplate: '',
+  //   printBackground: true,
+  //   printSelectionOnly: false,
+  // }
+
+  
+});
+
 // Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
+if (isDev) {
   if (process.platform === 'win32') {
     process.on('message', (data) => {
       if (data === 'graceful-exit') {

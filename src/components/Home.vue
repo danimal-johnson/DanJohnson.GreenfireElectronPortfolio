@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <button id="print-pdf">Print me!</button>
   </div>
 </template>
 
@@ -9,7 +10,17 @@ export default {
   name: 'Home',
   props: {
     msg: String
-  }
+  },
+  mounted() {
+    const { ipcRenderer } = require('electron');
+    console.log('Home mounted');
+    const printButton = document.getElementById('print-pdf');
+
+    printButton.addEventListener('click', () => {
+    // ipcRenderer.send('print-to-pdf');
+    console.log('Print to pdf!');
+    });
+  },
 }
 </script>
 

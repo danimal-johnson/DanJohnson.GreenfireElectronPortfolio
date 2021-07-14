@@ -6,18 +6,19 @@
 </template>
 
 <script>
+const { ipcRenderer } = require('electron');
+
 export default {
   name: 'Home',
   props: {
     msg: String
   },
   mounted() {
-    const { ipcRenderer } = require('electron');
     console.log('Home mounted');
     const printButton = document.getElementById('print-pdf');
 
     printButton.addEventListener('click', () => {
-    // ipcRenderer.send('print-to-pdf');
+    ipcRenderer.send('print-to-pdf');
     console.log('Print to pdf!');
     });
   },

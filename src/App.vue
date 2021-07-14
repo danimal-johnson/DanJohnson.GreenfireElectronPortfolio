@@ -70,10 +70,11 @@ export default {
     },
   },
   async created() {
-    await this.fetchCurrency(this.currencies[0]);
-    await this.fetchCurrency(this.currencies[1]);
-    await this.fetchCurrency(this.currencies[2]);
-    console.log(this.currencies);
+    // TODO: fetch all the data
+    // await this.fetchCurrency(this.currencies[0]);
+    // await this.fetchCurrency(this.currencies[1]);
+    // await this.fetchCurrency(this.currencies[2]);
+    // console.log(this.currencies);
   },
 }
 

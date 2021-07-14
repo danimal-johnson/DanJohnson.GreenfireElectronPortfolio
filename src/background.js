@@ -1,11 +1,11 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, Menu, ipcMain, /* shell */ } from 'electron';
+import { app, protocol, BrowserWindow, Menu, ipcMain, shell } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer';
-// const os = require('os');
-// const fs = require('fs');
-// const path = require('path');
+const os = require('os');
+const fs = require('fs');
+const path = require('path');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const isMac = process.platform === 'darwin';
@@ -126,48 +126,48 @@ app.on('ready', async () => {
 // --------------- IPC Events ------------------------
 
 ipcMain.on('print-to-pdf', event => {
-  // const pdfPath = `${os.homedir()}/electron-portfolio/port.pdf`;
-  // const pdfPath = path.join(os.homedir(), 'electron-portfolio', 'port.pdf');
-  // console.log('PDF Path is: ' + pdfPath);
-
-  console.log('In the print to pdf function.');
+  const pdfPath = path.join(os.homedir(), 'electron-portfolio', 'port.pdf');
+  console.log('PDF Path is: ' + pdfPath);
 
   // const printToPDF = require('electron-print-to-pdf');
-  // const win = BrowserWindow.fromWebContents(event.sender);
 
-  // win.webContents.printToPDF({}, (err, data) => {
-  //   if (err) {
-  //     console.error(err.message);
-  //     return;
-  //   }
-  //   console.log('Printing...');
-  //   fs.writeFile(pdfPath, data, (err) => {
-  //     if (err) {
-  //       console.error(err.message);
-  //       return;
-  //     }
+  const pdfOptions = {
+    marginsType: 0,
+    printBackground: true,
+    printSelectionOnly: false,
+    pageSize: 'Letter',
+    pageOrientation: 'portrait',
+    landscape: false,
+    scaleFactor: 100,
+    headerFooter: {
+      title: 'Electron Portfolio',
+      url: 'Supposed to be in the footer',
+    },
+  };
+
+  const win = BrowserWindow.fromWebContents(event.sender);
+  console.log('Win created?');
+  console.log (!!win);
+
+  win.webContents.printToPDF(pdfOptions)
+    .then(data => {
+      fs.writeFile(pdfPath, data, err => {
+        if (err) {
+          console.error('writeFile Error:', err);
+        } else {
+          console.error('Just checking');
+          console.log('PDF saved to: ' + pdfPath);
+        }
+      })
+    })
+    .catch(err => {
+      console.error('Error in printToPDF:', err);
+    });
+  
+  //     console.log(`Printed to ${pdfPath}`);
   //     shell.openExternal('file://' + pdfPath);
   //     event.sender.send('wrote-pdf', pdfPath);
   //     console.log('Printed successfully to ' + pdfPath);
-  //   });
-  // });
-
-  // e.sender.printToPDF({
-  //   marginsType: 0,
-  //   printBackground: true,
-  //   printSelectionOnly: false,
-  //   pageSize: 'A4',
-  //   pageOrientation: 'portrait',
-  //   printBackground: true,
-  //   landscape: false,
-  //   scaleFactor: 1,
-  //   headerTemplate: '',
-  //   footerTemplate: '',
-  //   printBackground: true,
-  //   printSelectionOnly: false,
-  // }
-
-  
 });
 
 // Exit cleanly on request from parent process in development mode.

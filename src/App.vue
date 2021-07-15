@@ -1,25 +1,28 @@
 <template>
   <Home :user="author" msg="Greenfire Developer Portfolio" />
-  <!-- div class="crypto">
+  <div class="crypto">
     <Card v-if="currencies[0].loaded" type="currency" :details="currencies[0]" />
     <Card v-if="currencies[1].loaded" type="currency" :details="currencies[1]" />
     <Card v-if="currencies[2].loaded" type="currency" :details="currencies[2]" />
-  </!  -->
-  <!-- TwitterFeed :user="twitterFeeds[0]" / -->
-  <!-- TwitterFeed :user="twitterFeeds[1]" / -->
+  </div>
+  <TwitterFeed :user="twitterFeeds[0]" />
+  <TwitterFeed :user="twitterFeeds[1]" />
+  <Footer :user="author" />
 </template>
 
 <script>
 import Home from './components/Home.vue';
-// import Card from './components/Card.vue';
-// import TwitterFeed from './components/TwitterFeed.vue';
+import Card from './components/Card.vue';
+import TwitterFeed from './components/TwitterFeed.vue';
+import Footer from './components/Footer.vue';
 
 export default {
   name: 'App',
   components: {
     Home,
-    // TwitterFeed,
-    // Card,
+    Card,
+    TwitterFeed,
+    Footer,
   },
   data() {
     return {
@@ -54,8 +57,9 @@ export default {
         name: 'Dan Johnson',
         email: null,
         website: 'https://johnsondan.com/',
-        linkedIn: 'https://linkedin.com/in/danimal.johnson',
-        github: 'https://github.com/danimal.johnson',
+        linkedIn: 'https://linkedin.com/in/danimal-johnson',
+        github: 'https://github.com/danimal-johnson',
+        resume: 'https://resume.creddle.io/resume/e0a77jyccqm',
         icon: 'dj-qr-code.png',
       },
     };
@@ -69,11 +73,9 @@ export default {
     },
   },
   async created() {
-    // TODO: fetch all the data
-    // await this.fetchCurrency(this.currencies[0]);
-    // await this.fetchCurrency(this.currencies[1]);
-    // await this.fetchCurrency(this.currencies[2]);
-    // console.log(this.currencies);
+    await this.fetchCurrency(this.currencies[0]);
+    await this.fetchCurrency(this.currencies[1]);
+    await this.fetchCurrency(this.currencies[2]);
   },
 }
 
@@ -92,6 +94,8 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  margin-top: 20px;
+  outline: 1px solid green;
 }
 
 </style>

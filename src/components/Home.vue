@@ -8,7 +8,7 @@
         <h3>{{ user.name }}</h3>
       </div>
     </div>
-    <div class="">
+    <div class="right">
       <h1>{{ msg }}</h1>
       <button id="print-pdf">Save to PDF</button>
     </div>
@@ -28,6 +28,7 @@ export default {
       website: String,
       linkedIn: String,
       github: String,
+      resume: String,
       icon: String
     },
   },
@@ -63,7 +64,9 @@ export default {
   padding-right: 10px;
 }
 .right {
-  flex: 3;
+  width: 100%;
+  padding-left: 10px;
+  outline: 1px solid teal;
 }
 
 .qrcode {

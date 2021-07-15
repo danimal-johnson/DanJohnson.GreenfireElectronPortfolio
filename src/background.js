@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, Menu, ipcMain, shell } from 'electron';
+import { app, protocol, BrowserWindow, Menu, ipcMain } from 'electron';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer';
 const os = require('os');
@@ -56,21 +56,22 @@ const menu = [
       click: () => console.log('about menu clicked'), // TODO
     }
   ]}] : []),
-  {
-    label: 'File',
-    submenu: [
-      {
-        label: 'Save to PDF',
-        accelerator: 'CmdOrCtrl+S',
-        click: () => { console.log('save to pdf'); }, // TODO: save to pdf
-      },
-      {
-        label: 'Quit',
-        accelerator: 'CmdOrCtrl+Q',
-        click: () => app.quit(),
-      },
-    ],
-  },
+    {
+      role: 'fileMenu',
+    },
+  // {
+  //   label: 'File',
+  //   submenu: [
+  //     {
+  //       label: 'Save to PDF',
+  //       accelerator: 'CmdOrCtrl+S',
+  //       click: () => { console.log('save to pdf'); }, // TODO: save to pdf
+  //     },
+  //     {
+  //       label: 'Quit',
+  //       accelerator: 'CmdOrCtrl+Q',
+  //       click: () => app.quit(),
+  //     },
   ...(!isMac ? [{
     label: 'Help',
     submenu: [{
@@ -126,11 +127,16 @@ app.on('ready', async () => {
 // --------------- IPC Events ------------------------
 
 ipcMain.on('print-to-pdf', event => {
-  const pdfPath = path.join(os.homedir(), 'electron-portfolio', 'port.pdf');
-  console.log('PDF Path is: ' + pdfPath);
+  const now = new Date();
+  let month = now.getMonth() + 1;
+  let day = now.getDate();
+  month = month < 10 ? `0${month}` : month;
+  day = day < 10 ? `0${day}` : day;
+  const filename = `${now.getFullYear()}-${month}-${day}.pdf`;
 
-  // const printToPDF = require('electron-print-to-pdf');
-
+  const pdfDir = path.join(os.homedir(), 'electron-portfolio');
+  const pdfPath = path.join(os.homedir(), 'electron-portfolio', filename);
+  
   const pdfOptions = {
     marginsType: 0,
     printBackground: true,
@@ -140,22 +146,23 @@ ipcMain.on('print-to-pdf', event => {
     landscape: false,
     scaleFactor: 100,
     headerFooter: {
-      title: 'Electron Portfolio',
-      url: 'Supposed to be in the footer',
+      title: 'Electron Portfolio for Dan Johnson',
+      url: 'A Greenfire Audition',
     },
   };
 
   const win = BrowserWindow.fromWebContents(event.sender);
-  console.log('Win created?');
-  console.log (!!win);
 
   win.webContents.printToPDF(pdfOptions)
     .then(data => {
+      fs.mkdirSync(pdfDir, { recursive: true });
       fs.writeFile(pdfPath, data, err => {
         if (err) {
           console.error('writeFile Error:', err);
         } else {
-          console.error('Just checking');
+          // shell.showItemInFolder(pdfPath); // No effect
+          // shell.openPath(os.homedir()); // No effect
+          // shell.openItem(pdfPath); // Runtime error
           console.log('PDF saved to: ' + pdfPath);
         }
       })
@@ -164,10 +171,8 @@ ipcMain.on('print-to-pdf', event => {
       console.error('Error in printToPDF:', err);
     });
   
-  //     console.log(`Printed to ${pdfPath}`);
-  //     shell.openExternal('file://' + pdfPath);
-  //     event.sender.send('wrote-pdf', pdfPath);
-  //     console.log('Printed successfully to ' + pdfPath);
+  // To give feedback to the user, since opening the path doesn't work:
+  // event.sender.send('wrote-pdf', pdfPath);
 });
 
 // Exit cleanly on request from parent process in development mode.

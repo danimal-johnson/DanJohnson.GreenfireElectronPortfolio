@@ -1,6 +1,5 @@
 <template>
-  <Home msg="Greenfire Developer Portfolio" />
-  <!-- Card type="person" :details="author" / -->
+  <Home :user="author" msg="Greenfire Developer Portfolio" />
   <!-- div class="crypto">
     <Card v-if="currencies[0].loaded" type="currency" :details="currencies[0]" />
     <Card v-if="currencies[1].loaded" type="currency" :details="currencies[1]" />
@@ -19,7 +18,7 @@ export default {
   name: 'App',
   components: {
     Home,
-//     TwitterFeed,
+    // TwitterFeed,
     // Card,
   },
   data() {

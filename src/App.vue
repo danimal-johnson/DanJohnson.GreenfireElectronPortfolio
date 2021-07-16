@@ -5,17 +5,17 @@
     <Card v-if="currencies[1].loaded" type="currency" :details="currencies[1]" />
     <Card v-if="currencies[2].loaded" type="currency" :details="currencies[2]" />
   </div>
-  <!-- div class="tweets">
+  <div class="tweets">
     <TwitterFeed :user="twitterFeeds[0]" />
     <TwitterFeed :user="twitterFeeds[1]" />
-  </!-- -->
+  </div>
   <Footer :user="author" />
 </template>
 
 <script>
 import Header from './components/Header.vue';
 import Card from './components/Card.vue';
-// import TwitterFeed from './components/TwitterFeed.vue';
+import TwitterFeed from './components/TwitterFeed.vue';
 import Footer from './components/Footer.vue';
 
 export default {
@@ -23,7 +23,7 @@ export default {
   components: {
     Header,
     Card,
-//     TwitterFeed,
+    TwitterFeed,
     Footer,
   },
   data() {

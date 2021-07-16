@@ -7,7 +7,8 @@ A demonstration Electron/Vue3 project.
 
 [TOC]
 ### Platform
-* This project was built for a Linux environment under WSL2/Ubuntu in Windows 10. This can lead to many complications. See the [Troubleshooting](#troubleshooting) section for details.
+* This project was built for a Linux environment under WSL2/Ubuntu in Windows 10. This configuration may require several tweaks and settings changes. See the [Troubleshooting](#troubleshooting) section for details.
+* Tested to run on Linux Mint using node 16.5.0 without modification.
 * Built using Node 14.16.1, Vue 3, and Electron 13.
 
 ## Project setup

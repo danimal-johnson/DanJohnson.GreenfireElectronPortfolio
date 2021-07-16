@@ -32,7 +32,6 @@ export default {
 <style scoped>
 .footer {
   margin-top: 20px;
-  outline: 1px solid hotpink;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

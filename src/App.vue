@@ -1,17 +1,19 @@
 <template>
-  <Home :user="author" msg="Greenfire Developer Portfolio" />
+  <Header :user="author" msg="Greenfire Developer Portfolio" />
   <div class="crypto">
     <Card v-if="currencies[0].loaded" type="currency" :details="currencies[0]" />
     <Card v-if="currencies[1].loaded" type="currency" :details="currencies[1]" />
     <Card v-if="currencies[2].loaded" type="currency" :details="currencies[2]" />
   </div>
-  <TwitterFeed :user="twitterFeeds[0]" />
-  <TwitterFeed :user="twitterFeeds[1]" />
+  <div class="tweets">
+    <TwitterFeed :user="twitterFeeds[0]" />
+    <TwitterFeed :user="twitterFeeds[1]" />
+  </div>
   <Footer :user="author" />
 </template>
 
 <script>
-import Home from './components/Home.vue';
+import Header from './components/Header.vue';
 import Card from './components/Card.vue';
 import TwitterFeed from './components/TwitterFeed.vue';
 import Footer from './components/Footer.vue';
@@ -19,7 +21,7 @@ import Footer from './components/Footer.vue';
 export default {
   name: 'App',
   components: {
-    Home,
+    Header,
     Card,
     TwitterFeed,
     Footer,
@@ -78,7 +80,6 @@ export default {
     await this.fetchCurrency(this.currencies[2]);
   },
 }
-
 </script>
 
 <style>
@@ -88,14 +89,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 10px;
 }
 .crypto {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   margin-top: 20px;
-  outline: 1px solid green;
+}
+.tweets {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 </style>

@@ -4,7 +4,7 @@
       <div class="qrcode">
         <img :src="getImgUrl(user.icon)" :alt="user.name">
       </div>
-      <div class="qr-contents">
+      <div class="qr-title">
         <h3>{{ user.name }}</h3>
       </div>
     </div>
@@ -65,13 +65,15 @@ export default {
 }
 .right {
   width: 100%;
-  padding-left: 10px;
-  outline: 1px solid teal;
+  padding: 10px;
 }
 
 .qrcode {
   width: 150px;
   height: 150px;
+}
+.qr-title h3 {
+  margin-top: 0;
 }
 
 img {
@@ -92,4 +94,10 @@ li {
 a {
   color: #42b983;
 }
+
+button {
+  padding: .5em 1em;
+  margin-top: 15px;
+}
+
 </style>

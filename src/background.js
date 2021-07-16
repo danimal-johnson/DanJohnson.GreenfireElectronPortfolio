@@ -19,7 +19,7 @@ async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     width: isDev ? 1100 : 800,
-    height: 600,
+    height: 800,
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -163,7 +163,7 @@ ipcMain.on('print-to-pdf', event => {
           // shell.showItemInFolder(pdfPath); // No effect
           // shell.openPath(os.homedir()); // No effect
           // shell.openItem(pdfPath); // Runtime error
-          console.log('PDF saved to: ' + pdfPath);
+          isDev ? console.log('PDF saved to: ' + pdfPath) : null;
         }
       })
     })

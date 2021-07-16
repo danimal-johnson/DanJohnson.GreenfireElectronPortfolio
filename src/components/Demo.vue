@@ -1,6 +1,6 @@
 <template>
   <div>
-   <VueQr3
+    <VueQr3
           :width="200"
           :height="200"
           data="https://diadal.com.ng"

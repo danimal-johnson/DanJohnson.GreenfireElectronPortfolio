@@ -20,6 +20,7 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: isDev ? 1100 : 800,
     height: 800,
+    icon: path.join(__dirname, '/assets/greenfirelogo-32x32.png'),
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -46,39 +47,9 @@ async function createWindow() {
 
 // ----------------- Menu ------------------------
 const menu = [
-  // Set our own app 'About' menu for Mac
-  //...(isMac ? [{ role: 'appMenu'}] : []),
-  ...(isMac ? [{
-    label: app.name,
-    submenu: [
-    {
-      label: 'About',
-      click: () => console.log('about menu clicked'), // TODO
-    }
-  ]}] : []),
-    {
+  {
       role: 'fileMenu',
-    },
-  // {
-  //   label: 'File',
-  //   submenu: [
-  //     {
-  //       label: 'Save to PDF',
-  //       accelerator: 'CmdOrCtrl+S',
-  //       click: () => { console.log('save to pdf'); }, // TODO: save to pdf
-  //     },
-  //     {
-  //       label: 'Quit',
-  //       accelerator: 'CmdOrCtrl+Q',
-  //       click: () => app.quit(),
-  //     },
-  ...(!isMac ? [{
-    label: 'Help',
-    submenu: [{
-      label: 'About',
-      click: () => console.log('about menu clicked'), // TODO
-    }],
-  }] : []), // Help/About menu only on non-Mac
+  },
   ...(isDev ? [
     {
       label: 'Developer',

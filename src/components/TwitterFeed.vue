@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style>
-.twitter-feed {
+/* .twitter-feed {
   outline: 1px solid #ccc;
-}
+} */
 </style>
